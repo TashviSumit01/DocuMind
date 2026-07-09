@@ -10,6 +10,7 @@ def save_conversation(conversation):
 
 def load_conversations():
     conversations = []
+    os.makedirs("conversations" , exist_ok=True)
     for file in os.listdir("conversations"):
         if file.endswith(".json"):
             with open(f"conversations/{file}", "r") as f:
