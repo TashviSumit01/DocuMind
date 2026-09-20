@@ -11,6 +11,9 @@ load_dotenv()
 GROQ_API_KEY = os.getenv("GROQ_API_KEY")
 GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
 
+# Created once, reused across calls
+llm = ChatGroq(model="openai/gpt-oss-120b", api_key=GROQ_API_KEY, max_tokens=2048)
+
 def create_vectorstore(source,source_type):
     if source_type == "pdf":
         loader = PyPDFLoader(source)
@@ -64,8 +67,6 @@ def create_vectorstore(source,source_type):
     return vectorstore
   
 def get_answer(question,vectorstore):
-    llm = ChatGroq(model="llama-3.3-70b-versatile", api_key=GROQ_API_KEY)
-    
     if vectorstore is None:
         from langchain_core.messages import SystemMessage, HumanMessage
         messages = [
